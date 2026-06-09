@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مفاجأة مريم</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a18cd1, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* حاوية الرسالة بتصميم زجاجي */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 40px;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            z-index: 10;
+            transition: all 1s ease-in-out;
+        }
+
+        /* الزر المبدئي */
+        #start-btn {
+            background: #ff477e;
+            color: white;
+            font-size: 1.5rem;
+            font-family: inherit;
+            font-weight: bold;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 71, 126, 0.4);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        #start-btn:hover {
+            transform: scale(1.05);
+            background: #ff3366;
+        }
+
+        /* المحتوى المخفي */
+        #content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #d81b60;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        p {
+            color: #4a4a4a;
+            font-size: 1.4rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .beating-heart {
+            font-size: 5rem;
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* أوراق الورد المتساقطة */
+        .petal {
+            position: absolute;
+            top: -10vh;
+            font-size: 1.5rem;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-panel" id="main-panel">
+        <button id="start-btn">لمريم فقط 💌</button>
+        
+        <div id="content">
+            <h1>إلى مريم 💖</h1>
+            <p>أنتِ أجمل صدفة وأغلى إنسانة.<br>كل يوم معكِ هو عيد، وكل لحظة بقربكِ هي حياة.<br>هذا الموقع البسيط جزء صغير يعبر عن حبي الكبير لكِ.</p>
+            <div class="beating-heart">❤️</div>
+        </div>
+    </div>
+
+    <script>
+        // زر فتح الرسالة
+        const startBtn = document.getElementById('start-btn');
+        const content = document.getElementById('content');
+        const panel = document.getElementById('main-panel');
+
+        startBtn.addEventListener('click', () => {
+            startBtn.style.display = 'none';
+            content.style.display = 'block';
+            createPetals(); // بدء تساقط الورد عند النقر
+        });
+
+        // دالة توليد أوراق الورد والمؤثرات
+        function createPetals() {
+            const petalsArray = ['🌸', '🌺', '💖', '✨', '🌹'];
+            const petalCount = 40; // عدد الورود المتساقطة
+
+            for (let i = 0; i < petalCount; i++) {
+                setTimeout(() => {
+                    const petal = document.createElement('div');
+                    petal.classList.add('petal');
+                    
+                    // اختيار شكل عشوائي من المصفوفة
+                    petal.innerText = petalsArray[Math.floor(Math.random() * petalsArray.length)];
+                    
+                    // تحديد موقع السقوط وحجم الوردة وسرعتها بشكل عشوائي
+                    petal.style.left = Math.random() * 100 + 'vw';
+                    petal.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+                    petal.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                    
+                    document.body.appendChild(petal);
+
+                    // إزالة العنصر بعد انتهاء الحركة لتخفيف الضغط على المتصفح
+                    setTimeout(() => {
+                        petal.remove();
+                    }, 7000);
+                }, i * 200); // تأخير زمني لتساقط متتابع
+            }
+        }
+    </script>
+
+</body>
+</html>
